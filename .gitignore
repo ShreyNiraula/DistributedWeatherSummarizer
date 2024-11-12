@@ -1,0 +1,28 @@
+# Ignore virtual environments
+virtualenv/
+venv/
+
+# Ignore environment variables file inside Flask project
+./*/.env
+./*/*.db
+././.idea/*
+././.idea/
+./.idea/*
+./.idea/
+./.idea/*
+.idea/
+Weather*/*.db
+Weather*/*.env
+
+# Python cache and compiled files
+*.pyc
+__pycache__/
+
+# Ignore other typical Python/Flask project files
+instance/
+.DS_Store
+*.pyo
+*.log
+*.sqlite3
+
+# Other files or folders you want to exclude

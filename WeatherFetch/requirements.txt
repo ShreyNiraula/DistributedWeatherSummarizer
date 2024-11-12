@@ -1,0 +1,4 @@
+Flask==2.3.2
+requests==2.31.0
+google-generativeai>=0.8.2
+python-dotenv==0.21.1

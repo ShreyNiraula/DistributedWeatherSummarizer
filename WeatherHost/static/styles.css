@@ -1,0 +1,153 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 1.25em 0; /* 20px */
+}
+
+footer {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 0.625em 0; /* 10px */
+    width: 100%;
+    bottom: 0;
+}
+
+h1, h2 {
+    margin: 0;
+}
+
+.content {
+    padding: 1.25em; /* 20px */
+    max-width: 75em; /* 1200px */
+    margin: 0 auto;
+}
+
+.content > *[id] {
+    margin: 2em 0em;
+}
+
+/* Weather Data Table */
+.weather-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.25em; /* 20px */
+}
+
+.weather-table th, .weather-table td {
+    padding: 0.75em; /* 12px */
+    text-align: center;
+    border: 0.063em solid #ddd; /* 1px */
+}
+
+.weather-table th {
+    background-color: #f2f2f2;
+}
+
+/* Subscription Form */
+form {
+    background-color: #fff;
+    padding: 1.25em; /* 20px */
+    margin-top: 1.25em; /* 20px */
+    border-radius: 0.5em; /* 8px */
+    box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.1); /* 4px, 8px */
+}
+
+form input, form button {
+    padding: 0.625em; /* 10px */
+    margin: 0.625em 0; /* 10px */
+    width: 100%;
+    font-size: 1em; /* 16px */
+}
+
+form input[type="email"], form input[type="text"] {
+    border: 0.063em solid #ccc; /* 1px */
+    border-radius: 0.313em; /* 5px */
+}
+
+form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 0.313em; /* 5px */
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+/* Trigger Alert Button */
+button[type="submit"] {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 0.625em 1.25em; /* 10px 20px */
+    font-size: 1em; /* 16px */
+    cursor: pointer;
+    border-radius: 0.313em; /* 5px */
+}
+
+button[type="submit"]:hover {
+    background-color: #e53935;
+}
+
+
+/* Flash Message Styling */
+#flash-messages {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    z-index: 9999;
+    max-width: 600px;
+}
+
+.flash {
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1.2em;
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 1s forwards, slideIn 0.5s ease-in-out;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Success */
+.flash.success {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #388E3C;
+}
+
+/* Error */
+.flash.error {
+    background-color: #f44336;
+    color: white;
+    border: 1px solid #d32f2f;
+}
+
+/* Warning */
+.flash.warning {
+    background-color: #ff9800;
+    color: white;
+    border: 1px solid #f57c00;
+}
+
+/* Slide in and fade effect */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
