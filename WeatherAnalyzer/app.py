@@ -1,5 +1,4 @@
 import os
-
 from flask import Flask, request, jsonify
 import json
 import google.generativeai as genai
@@ -79,4 +78,4 @@ def analyze_weather_route():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=6002)  # Run on 0.0.0.0 to allow external access
+    app.run(host='0.0.0.0', port=os.getenv("VM3").split(":")[-1])  # Run on 0.0.0.0 to allow external access

@@ -1,3 +1,4 @@
+import os
 from unittest.mock import patch
 
 from flask import request, jsonify, render_template, flash, redirect, url_for
@@ -10,7 +11,8 @@ import requests
 def fetch_weather_from_vm2():
     # fetch weather from WeatherFetch VM
     # url_vm2 = "http://<VM2-IP>:6001/"
-    url_vm2 = "http://10.0.0.233:6001/fetch"
+
+    url_vm2 = f"http://{os.getenv('VM2')}/fetch"
     try:
         response = requests.get(url_vm2)
         response.raise_for_status()  # Check if the request was successful
@@ -22,7 +24,7 @@ def fetch_weather_from_vm2():
 
 def fetch_analysis_from_vm3(weather_data):
     # url_vm3 = "http://<VM3-IP>:6002/"
-    url_vm3 = "http://10.0.0.233:6002/analyze"
+    url_vm3 = f"http://{os.getenv('VM3')}/analyze"
     try:
         response = requests.post(url_vm3, json=weather_data)
         response.raise_for_status()  # Check if the request was successful
@@ -78,12 +80,13 @@ def subscribe():
 
 # Endpoint to trigger alert (can be scheduled or triggered manually)
 def trigger_alert():
-    weather_data = fetch_weather_data()
-    _, analysis = analyze_weather(weather_data)
+    weather_data = fetch_weather_from_vm2()
+    analysis = fetch_analysis_from_vm3(weather_data)
 
     alert_msg = analysis['alert_msg']
 
-    if "heavy rainfall" in alert_msg.lower() or "hurricane" in alert_msg.lower():
+    # if "heavy rainfall" in alert_msg.lower() or "hurricane" in alert_msg.lower():
+    if not analysis.get("alert"):
         try:
             send_alert_to_users(alert_msg)
         except Exception as e:

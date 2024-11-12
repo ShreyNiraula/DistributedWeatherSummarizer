@@ -1,9 +1,11 @@
+import os
 import requests
 from flask import Flask, jsonify
 from datetime import datetime, timedelta
 
 # VM2: weather_data_service.py
 app = Flask(__name__)
+app.config.from_object('config.Config')
 
 
 # Function to limit the forcast datapoints to next hourly_limit
@@ -64,4 +66,5 @@ def fetch_weather_data():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=6001)
+    app.run(host='0.0.0.0', port=os.getenv("VM2").split(":")[-1])
+    # app.run(host='0.0.0.0', port=6002)
