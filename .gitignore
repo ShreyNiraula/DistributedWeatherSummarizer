@@ -3,6 +3,7 @@ virtualenv/
 venv/
 
 # Ignore environment variables file inside Flask project
+*.env
 ./*/.env
 ./*/*.db
 ././.idea/*
