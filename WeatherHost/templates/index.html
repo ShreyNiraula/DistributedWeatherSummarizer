@@ -6,13 +6,15 @@
     <title>Weather Alert App</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel ="stylesheet" href="./static/tailwind/styles.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <header>
-	<h1>Weather Forecast and Alerts</h1>
-    </header>
-
-    <div class="content">
+  <header >
+    <div class="flex w-full justify-center  rounded-xl text-4xl font-[900] shadow-lg p-6 border border-blue-100">
+      <h1 class="text-2xl text-1000 text-center flex  justify-center m-b-2">Weather Forecast and Alerts</h1>
+    </div>
+  </header>
+    <div >
 	<!-- Flash Messages -->
 	{% with messages = get_flashed_messages(with_categories=true) %}
 	  {% if messages %}
@@ -25,46 +27,112 @@
 	{% endwith %}
 
 	<!-- Display Weather Data -->
-	<section id="weather-data">
-	    <h2>Weather Forecast</h2>
-	    <div class="weather-table">
-		<table>
-		    <thead>
-			<tr>
-			    <th>Hour</th>
-			    <th>Temperature (°C)</th>
-			    <th>Precipitation Probability (%)</th>
-			    <th>Rain (mm)</th>
-			    <th>Wind Speed (km/h)</th>
-			</tr>
-		    </thead>
-		    <tbody>
-			{% for hour, temp, precip, rain, wind in weather_data %}
-			<tr>
-			    <td>{{ hour }}</td>
-			    <td>{{ temp }}</td>
-			    <td>{{ precip }}</td>
-			    <td>{{ rain }}</td>
-			    <td>{{ wind }}</td>
-			</tr>
-			{% endfor %}
-		    </tbody>
-		</table>
+
+	    <div class="weather-table hidden">
+	      <table>
+		<thead>
+		  <tr>
+		    <th>Hour</th>
+		    <th>Temperature (°C)</th>
+		    <th>Precipitation Probability (%)</th>
+		    <th>Rain (mm)</th>
+		    <th>Wind Speed (km/h)</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  {% for hour, temp, precip, rain, wind in weather_data %}
+		  <tr>
+		    <td>{{ hour }}</td>
+		    <td>{{ temp }}</td>
+		    <td>{{ precip }}</td>
+		    <td>{{ rain }}</td>
+		    <td>{{ wind }}</td>
+		  </tr>
+		  {% endfor %}
+		</tbody>
+	      </table>
 	    </div>
-	</section>
+	    <section id="weather-data" class=" mx-auto p-6 w-full">
+	      <div class="bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-lg p-6 border border-blue-100">
+		<h2 class="text-2xl font-bold text-gray-800 text-center mb-6 pb-2 border-b-2 border-blue-200">
+		  Weather Forecast</h2>
 
-	<!-- Display Analysis -->
-	<section id="analysis">
-	  <h2 class="bg-red-800">Weather Analysis</h2>
-	  <div class="bg-yellow-800">
+		<!-- Add canvases for each chart -->
+		<div class="w-full">
+		  <div class="flex flex-col gap-4 w-full">
+		    <div class=" flex w-full gap-4">
+		      <div class="chart-container flex-1">
+			<canvas id="temperatureChart"></canvas>
+		      </div>
+		      <div class="chart-container flex-1">
+			<canvas id="precipProbChart"></canvas>
+		      </div>
+		    </div>
+		    <div class="flex w-full gap-4">
+		      <div class="chart-container flex-1">
+			<canvas id="rainfallChart"></canvas>
+		      </div>
+		      <div class="chart-container flex-1">
+			<canvas id="windChart"></canvas>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	    </section>
+	    </div>
 
-	    <p>{{ analysis.text }}</p>
+	    <!-- Display Analysis -->
+
+	<section id="analysis" class="max-w-4xl mx-auto p-6">
+	  <!-- Analysis Container -->
+	  <div class="bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-lg p-6 border border-blue-100">
+	    <h2 class="text-2xl font-bold text-gray-800 text-center mb-6 pb-2 border-b-2 border-blue-200">
+	      Weather Analysis
+	    </h2>
+
+	    <!-- Alert Message (shown only if alert is True) -->
+	    {% if analysis.alert %}
+	    <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg animate-pulse">
+	      <div class="flex items-center">
+		<!-- Alert Icon -->
+		<div class="flex-shrink-0">
+		  <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+		    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v4a1 1 0 102 0V7zm-1 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+		  </svg>
+		</div>
+		<!-- Alert Message -->
+		<div class="ml-3">
+		  <p class="text-s text-red-700 font-medium">
+		    {{ analysis.alert_msg }}
+		  </p>
+		</div>
+	      </div>
+	    </div>
+	    {% endif %}
+
+	    <!-- Analysis Text Container -->
+	    <div class="text-lg font-mono relative bg-white bg-opacity-70 rounded-lg">
+	      <!-- Left border accent -->
+	      <div class="absolute left-0 top-0 h-full w-1 bg-blue-300 rounded-full"></div>
+
+	      <!-- Weather Details -->
+	      <div class="pl-4 py-4 text-gray-700 leading-relaxed">
+		{{ analysis.text }}
+	      </div>
+	    </div>
+
+	    <!-- Timestamp -->
+	    <div class="mt-4 text-sm text-gray-500 text-right">
+	      Updated at {{ current_time }}
+	    </div>
 	  </div>
 	</section>
 
+
 	<!-- Subscription Section -->
-	<section id="subscription">
-	    <h2>Subscribe for Alerts</h2>
+	<section id="subscription" class="max-w-6xl mx-auto p-6">
+	    <div class="bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-lg p-6 border border-blue-100">
+	    <h2 class="text-2xl text-1000 justify-center m-b-2">Subscribe for Alerts</h2>
 	    <form action="/subscribe" method="POST">
 		<label for="email">Email:</label>
 		<input type="email" id="email" name="email" required><br><br>
@@ -74,14 +142,17 @@
 
 		<button type="submit">Subscribe</button>
 	    </form>
+	    </div>
 	</section>
 
 	<!-- Trigger Alert Section (Button to manually trigger alerts) -->
-	<section id="trigger-alert">
-	    <h2>Trigger Alerts</h2>
+	<section id="trigger-alert"class="max-w-6xl mx-auto p-6">
+	    <div class="bg-gradient-to-br from-white to-blue-50 rounded-xl shadow-lg p-6 border border-blue-100">
+	    <h2 class="text-2xl text-1000 justify-center m-b-2">Trigger Alerts</h2>
 	    <form action="/trigger_alert" method="POST">
 		<button type="submit">Trigger Alert</button>
 	    </form>
+	    </div>
 	</section>
     </div>
 
@@ -99,5 +170,174 @@
 	    });
 	}, 2500); // 5 seconds delay before fade-out
     </script>
+     <script>
+	function getWeatherData() {
+	    const table = document.querySelector('.weather-table table');
+	    const rows = Array.from(table.querySelectorAll('tbody tr'));
+	    return rows.map(row => {
+		const cells = Array.from(row.cells);
+		return {
+		    hour: cells[0].textContent,
+		    temperature: parseFloat(cells[1].textContent),
+		    precipitation: parseFloat(cells[2].textContent),
+		    rain: parseFloat(cells[3].textContent),
+		    windSpeed: parseFloat(cells[4].textContent)
+		};
+	    });
+	}
+
+	window.addEventListener('load', () => {
+	    const weatherData = getWeatherData();
+	    const hours = weatherData.map(data => {
+
+		// Convert to Date object
+
+		const dateObj = new Date(data.hour);
+		// Format to abbreviated month
+		const formattedMonth = dateObj.toLocaleString("en-US", { hour: "numeric", minute: "numeric", hour12: true  });
+
+		return formattedMonth
+	    });
+
+	    // Temperature Line Chart
+	    new Chart(document.getElementById('temperatureChart'), {
+		type: 'line',
+		data: {
+		    labels: hours,
+		    datasets: [{
+			label: 'Temperature (°C)',
+			data: weatherData.map(data => data.temperature),
+			borderColor: 'rgb(255, 99, 132)',
+			borderWidth: 2,
+			tension: 0.3,
+			fill: false,
+			pointRadius: 3
+		    }]
+		},
+		options: {
+		    responsive: true,
+		    plugins: {
+			title: {
+			    display: true,
+			    text: 'Temperature Variation'
+			}
+		    },
+		    scales: {
+			y: {
+			    title: {
+				display: true,
+				text: 'Temperature (°C)'
+			    }
+			}
+		    }
+		}
+	    });
+
+	    // Precipitation Probability Area Chart
+	    new Chart(document.getElementById('precipProbChart'), {
+		type: 'line',
+		data: {
+		    labels: hours,
+		    datasets: [{
+			label: 'Precipitation Probability (%)',
+			data: weatherData.map(data => data.precipitation),
+			borderColor: 'rgb(54, 162, 235)',
+			backgroundColor: 'rgba(54, 162, 235, 0.2)',
+			tension: 0.3,
+			fill: true,
+			pointRadius: 0
+		    }]
+		},
+		options: {
+		    responsive: true,
+		    plugins: {
+			title: {
+			    display: true,
+			    text: 'Precipitation Probability'
+			}
+		    },
+		    scales: {
+			y: {
+			    beginAtZero: true,
+			    max: 100,
+			    title: {
+				display: true,
+				text: 'Probability (%)'
+			    }
+			}
+		    }
+		}
+	    });
+
+	    // Rainfall Bar Chart
+	    new Chart(document.getElementById('rainfallChart'), {
+		type: 'bar',
+		data: {
+		    labels: hours,
+		    datasets: [{
+			label: 'Rainfall (mm)',
+			data: weatherData.map(data => data.rain),
+			backgroundColor: 'rgba(75, 192, 192, 0.7)',
+			borderColor: 'rgb(75, 192, 192)',
+			borderWidth: 1
+		    }]
+		},
+		options: {
+		    responsive: true,
+		    plugins: {
+			title: {
+			    display: true,
+			    text: 'Rainfall Amount'
+			}
+		    },
+		    scales: {
+			y: {
+			    beginAtZero: true,
+			    title: {
+				display: true,
+				text: 'Rainfall (mm)'
+			    }
+			}
+		    }
+		}
+	    });
+
+	    // Wind Speed Line Chart
+	    new Chart(document.getElementById('windChart'), {
+		type: 'line',
+		data: {
+		    labels: hours,
+		    datasets: [{
+			label: 'Wind Speed (km/h)',
+			data: weatherData.map(data => data.windSpeed),
+			borderColor: 'rgb(153, 102, 255)',
+			borderWidth: 2,
+			tension: 0.3,
+			fill: false,
+			pointRadius: 3
+		    }]
+		},
+		options: {
+		    responsive: true,
+		    plugins: {
+			title: {
+			    display: true,
+			    text: 'Wind Speed Variation'
+			}
+		    },
+		    scales: {
+			y: {
+			    beginAtZero: true,
+			    title: {
+				display: true,
+				text: 'Wind Speed (km/h)'
+			    }
+			}
+		    }
+		}
+	    });
+	});
+    </script>
 </body>
+
 </html>

@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build:css": "npx tailwindcss -i ./static/styles.css -o ./static/tailwind/styles.css ",
-    "automate:css": "fswatch -o ./templates/index.html ./static/styles.css | xargs -n1 -I{} yarn run build:css"
+    "automate:css": "fswatch -o ./templates/*.html ./static/styles.css | xargs -n1 -I{} yarn run build:css"
   },
   "license": "MIT",
   "devDependencies": {
