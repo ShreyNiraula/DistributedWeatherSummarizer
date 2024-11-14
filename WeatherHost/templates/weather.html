@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Alert App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
+  <link rel ="stylesheet" href="./static/tailwind/styles.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header >
+    <div class="flex w-full justify-center  rounded-xl text-4xl font-[900] shadow-lg p-6 border border-blue-100">
+      <h1 class="text-2xl text-1000 text-center flex  justify-center m-b-2">Weather Forecast and Alerts</h1>
+    </div>
+  </header>
+    <div>
+      <h1>Search Location</h1>
+      <div class="search-container">
+        <input type="text" id="searchBar" class="search-bar" placeholder="Enter a location" autocomplete="off">
+        <div id="suggestions" class="suggestions-box"></div>
+      </div>
+
+      <!-- Display coordinates -->
+      <p>Latitude: <span id="latitude"></span></p>
+      <p>Longitude: <span id="longitude"></span></p>
+
+      <!-- Confirm Button -->
+      <button id="confirmButton" class="confirm-button" disabled>Confirm</button>
+    </div>
+    <footer>
+	<p>&copy; 2024 Weather Alert App. All Rights Reserved.</p>
+    </footer>
+    <script src="../static/script.js"></script>
+</body>
+</html>

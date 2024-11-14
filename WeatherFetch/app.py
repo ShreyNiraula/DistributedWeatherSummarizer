@@ -1,6 +1,6 @@
 import os
 import requests
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from datetime import datetime, timedelta
 
 # VM2: weather_data_service.py
@@ -43,15 +43,16 @@ def limit_weather_data(json_data, hourly_limit=24):
     return filtered_json_data
 
 
-@app.route('/fetch', methods=['GET'])
+@app.route('/fetch', methods=['POST'])
 def fetch_weather_data():
-    # TODO: make location user input? and change timezone as well?
-    # TODO: change forecast_days variable?
+    # get post data
+    payload = request.get_json()
+
     # Open-Meteo API endpoint and parameters
     url = "https://api.open-meteo.com/v1/forecast"
     params = {
-        "latitude": 34.7304,
-        "longitude": -86.5859,
+        "latitude": float(payload['lat']),
+        "longitude": float(payload['lon']),
         "current": ["temperature_2m", "relative_humidity_2m", "precipitation", "rain", "wind_speed_10m"],
         "hourly": ["temperature_2m", "relative_humidity_2m", "precipitation_probability", "rain", "wind_speed_10m"],
         "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min"],
