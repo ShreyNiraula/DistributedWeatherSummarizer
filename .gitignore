@@ -3,8 +3,8 @@ virtualenv/
 venv/
 
 # Ignore environment variables file inside Flask project
-*.env
-./*/.env
+
+*/.env
 ./*/*.db
 ././.idea/*
 ././.idea/
@@ -12,8 +12,13 @@ venv/
 ./.idea/
 ./.idea/*
 .idea/
+
+.env
+
 Weather*/*.db
 Weather*/*.env
+WeatherHost/node_modules/
+WeatherHost/package-lock.json
 
 # Python cache and compiled files
 *.pyc

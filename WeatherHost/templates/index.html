@@ -5,95 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Alert App</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel ="stylesheet" href="./static/tailwind/styles.css"/>
 </head>
 <body>
     <header>
-        <h1>Weather Forecast and Alerts</h1>
+	<h1>Weather Forecast and Alerts</h1>
     </header>
 
     <div class="content">
-        <!-- Flash Messages -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            <div id="flash-messages">
-              {% for category, message in messages %}
-                <div class="flash {{ category }}">{{ message }}</div>
-              {% endfor %}
-            </div>
-          {% endif %}
-        {% endwith %}
+	<!-- Flash Messages -->
+	{% with messages = get_flashed_messages(with_categories=true) %}
+	  {% if messages %}
+	    <div id="flash-messages">
+	      {% for category, message in messages %}
+		<div class="flash {{ category }}">{{ message }}</div>
+	      {% endfor %}
+	    </div>
+	  {% endif %}
+	{% endwith %}
 
-        <!-- Display Weather Data -->
-        <section id="weather-data">
-            <h2>Weather Forecast</h2>
-            <div class="weather-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Hour</th>
-                            <th>Temperature (°C)</th>
-                            <th>Precipitation Probability (%)</th>
-                            <th>Rain (mm)</th>
-                            <th>Wind Speed (km/h)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for hour, temp, precip, rain, wind in weather_data %}
-                        <tr>
-                            <td>{{ hour }}</td>
-                            <td>{{ temp }}</td>
-                            <td>{{ precip }}</td>
-                            <td>{{ rain }}</td>
-                            <td>{{ wind }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </section>
+	<!-- Display Weather Data -->
+	<section id="weather-data">
+	    <h2>Weather Forecast</h2>
+	    <div class="weather-table">
+		<table>
+		    <thead>
+			<tr>
+			    <th>Hour</th>
+			    <th>Temperature (°C)</th>
+			    <th>Precipitation Probability (%)</th>
+			    <th>Rain (mm)</th>
+			    <th>Wind Speed (km/h)</th>
+			</tr>
+		    </thead>
+		    <tbody>
+			{% for hour, temp, precip, rain, wind in weather_data %}
+			<tr>
+			    <td>{{ hour }}</td>
+			    <td>{{ temp }}</td>
+			    <td>{{ precip }}</td>
+			    <td>{{ rain }}</td>
+			    <td>{{ wind }}</td>
+			</tr>
+			{% endfor %}
+		    </tbody>
+		</table>
+	    </div>
+	</section>
 
-        <!-- Display Analysis -->
-        <section id="analysis">
-            <h2>Weather Analysis</h2>
-            <p>{{ analysis }}</p>
-        </section>
+	<!-- Display Analysis -->
+	<section id="analysis">
+	  <h2 class="bg-red-800">Weather Analysis</h2>
+	  <div class="bg-yellow-800">
 
-        <!-- Subscription Section -->
-        <section id="subscription">
-            <h2>Subscribe for Alerts</h2>
-            <form action="/subscribe" method="POST">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required><br><br>
+	    <p>{{ analysis.text }}</p>
+	  </div>
+	</section>
 
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required><br><br>
+	<!-- Subscription Section -->
+	<section id="subscription">
+	    <h2>Subscribe for Alerts</h2>
+	    <form action="/subscribe" method="POST">
+		<label for="email">Email:</label>
+		<input type="email" id="email" name="email" required><br><br>
 
-                <button type="submit">Subscribe</button>
-            </form>
-        </section>
+		<label for="username">Username:</label>
+		<input type="text" id="username" name="username" required><br><br>
 
-        <!-- Trigger Alert Section (Button to manually trigger alerts) -->
-        <section id="trigger-alert">
-            <h2>Trigger Alerts</h2>
-            <form action="/trigger_alert" method="POST">
-                <button type="submit">Trigger Alert</button>
-            </form>
-        </section>
+		<button type="submit">Subscribe</button>
+	    </form>
+	</section>
+
+	<!-- Trigger Alert Section (Button to manually trigger alerts) -->
+	<section id="trigger-alert">
+	    <h2>Trigger Alerts</h2>
+	    <form action="/trigger_alert" method="POST">
+		<button type="submit">Trigger Alert</button>
+	    </form>
+	</section>
     </div>
 
     <footer>
-        <p>&copy; 2024 Weather Alert App. All Rights Reserved.</p>
+	<p>&copy; 2024 Weather Alert App. All Rights Reserved.</p>
     </footer>
     <script>
-        // Set a timeout for flash messages to disappear after 5 seconds
-        setTimeout(() => {
-            const flashMessages = document.querySelectorAll('.flash');
-            flashMessages.forEach((message) => {
-                message.style.opacity = '0';
-                message.style.transition = 'opacity 0.5s ease';
-                setTimeout(() => message.remove(), 500); // Remove the message after fade-out
-            });
-        }, 2500); // 5 seconds delay before fade-out
+	// Set a timeout for flash messages to disappear after 5 seconds
+	setTimeout(() => {
+	    const flashMessages = document.querySelectorAll('.flash');
+	    flashMessages.forEach((message) => {
+		message.style.opacity = '0';
+		message.style.transition = 'opacity 0.5s ease';
+		setTimeout(() => message.remove(), 500); // Remove the message after fade-out
+	    });
+	}, 2500); // 5 seconds delay before fade-out
     </script>
 </body>
 </html>
